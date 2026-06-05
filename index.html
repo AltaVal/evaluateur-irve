@@ -146,7 +146,7 @@
   <div class="result" id="result"></div>
 
   <footer>
-    Estimation indicative fondée sur la règle d'environ 1 point de charge par tranche de 20 emplacements, dont au moins une place accessible PMR ; minimum 2 emplacements équipés au-delà de 200 places. Les obligations d'équipement peuvent être levées si les travaux d'adaptation du réseau électrique en amont du TGBT excèdent le coût des travaux en aval (art. L113-14 1°), et ne s'appliquent pas aux PME propriétaires-occupantes. Pour les bâtiments neufs ou rénovés, une obligation distincte de pré-équipement s'ajoute. Ce document n'est pas un avis juridique ; valider chaque cas avec une étude de conception électrique (obligatoire dès 50 places).
+    Estimation indicative fondée sur la règle d'environ 1 point de charge par tranche de 20 emplacements, dont au moins une place accessible PMR. Les obligations d'équipement peuvent être levées si les travaux d'adaptation du réseau électrique en amont du TGBT excèdent le coût des travaux en aval (art. L113-14 1°), et ne s'appliquent pas aux PME propriétaires-occupantes. Pour les bâtiments neufs ou rénovés, une obligation distincte de pré-équipement s'ajoute. Ce document n'est pas un avis juridique ; valider chaque cas avec une étude de conception électrique (obligatoire dès 50 places).
   </footer>
 </div>
 
@@ -178,17 +178,15 @@
 
     var bornes = Math.floor(n / 20);
     if(bornes < 1) bornes = 1;
-    if(n > 200) bornes = Math.max(bornes, 2);
 
     var html =
       '<div class="reslabel">Résultat</div>'+
       '<div class="big">'+bornes+'</div>'+
-      '<div class="unit">point(s) de recharge minimum, dont 1 sur place accessible PMR</div>'+
+      '<div class="unit">point(s) de recharge minimum, dont au moins 1 sur place accessible PMR</div>'+
       '<div class="breakdown">'+
         '<div><span>Places de stationnement</span><b>'+n+'</b></div>'+
         '<div><span>Type / seuil de déclenchement</span><b>'+(type==='neuf'?'Neuf ou rénové':'Existant')+' (&gt; '+seuil+')</b></div>'+
         '<div><span>Calcul : 1 borne / tranche de 20</span><b>'+Math.floor(n/20)+'</b></div>'+
-        (n>200?'<div><span>Plancher &gt; 200 places</span><b>min. 2</b></div>':'')+
         '<div><span>Dont place PMR</span><b>1</b></div>'+
       '</div>';
 
