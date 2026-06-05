@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Évaluateur IRVE - Proposition S2 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#121A33;
+    --ink2:#0A1230;
+    --slate:#55607A;
+    --rasp:#C0445A;
+    --rose:#DF7F94;
+    --cyan:#31859D;
+    --greentext:#93CCDD;
+    --line:#E2E5EE;
+    --bg:#F5F6FB;
+    --chip:#B8C0D8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Century Gothic","Questrial",Futura,"Trebuchet MS",sans-serif;
+    background:var(--bg);
+    color:var(--midnight);
+    line-height:1.55;
+  }
+  .topbar{height:6px;background:linear-gradient(90deg,#31859D 0%,#3A9E8F 60%,#2C7A6E 100%);}
+  .wrap{max-width:780px;margin:0 auto;padding:30px 20px 60px;}
+  header{margin-bottom:26px;}
+  .pill{
+    display:inline-block;background:var(--midnight);color:var(--greentext);
+    font-family:"Montserrat",sans-serif;font-weight:700;font-size:11px;
+    letter-spacing:3px;text-transform:uppercase;padding:7px 16px;border-radius:30px;
+  }
+  h1{
+    font-family:"Montserrat",sans-serif;font-weight:800;color:var(--midnight);
+    font-size:30px;margin:16px 0 6px;line-height:1.12;
+  }
+  .sub{font-size:14px;color:var(--slate);max-width:640px;}
+  .note{
+    font-size:13.5px;color:var(--slate);background:#fff;border:1px solid var(--line);
+    border-left:4px solid var(--cyan);border-radius:10px;padding:14px 18px;margin-bottom:22px;
+  }
+  .note b{color:var(--midnight);}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:22px;}
+  .block{margin-top:22px;}
+  .block:first-child{margin-top:0;}
+  .blockhead{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .badge{
+    flex:none;width:32px;height:32px;border-radius:50%;background:var(--cyan);
+    color:#fff;font-family:"Montserrat",sans-serif;font-weight:800;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .badge.dark{background:var(--midnight);color:#fff;}
+  label.q{font-family:"Montserrat",sans-serif;font-weight:700;font-size:15px;color:var(--midnight);}
+  .seclabel{
+    font-family:"Montserrat",sans-serif;font-weight:700;font-size:11px;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--rasp);margin-bottom:6px;
+  }
+  .hint{font-size:12px;color:var(--slate);margin-bottom:10px;}
+  input[type=number]{
+    width:100%;padding:13px 15px;font-size:19px;border:1px solid var(--line);border-radius:10px;
+    font-family:"Montserrat",sans-serif;font-weight:700;color:var(--midnight);background:var(--bg);
+  }
+  input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(49,133,157,.25);}
+  .opts{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:1px solid var(--line);
+    border-radius:10px;cursor:pointer;font-size:14px;transition:.15s;background:#fff;
+  }
+  .opt:hover{border-color:var(--cyan);background:#fafdff;}
+  .opt input{margin-top:3px;accent-color:var(--cyan);}
+  .opt b{color:var(--midnight);font-weight:600;}
+  .opt small{display:block;color:var(--slate);font-size:12px;margin-top:2px;}
+
+  .result{background:var(--midnight);color:#fff;border-radius:14px;padding:28px 26px;}
+  .result .reslabel{
+    font-family:"Montserrat",sans-serif;font-weight:700;font-size:11px;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--greentext);margin-bottom:10px;
+  }
+  .result .big{font-family:"Montserrat",sans-serif;font-weight:800;font-size:52px;color:var(--greentext);line-height:1;}
+  .result .unit{font-size:14px;color:#C9D2E6;margin-top:6px;}
+  .breakdown{margin-top:22px;border-top:1px solid rgba(255,255,255,.16);padding-top:16px;font-size:14px;}
+  .breakdown div{display:flex;justify-content:space-between;padding:5px 0;color:#C9D2E6;}
+  .breakdown div b{color:#fff;font-family:"Montserrat",sans-serif;font-weight:700;}
+  .flag{
+    margin-top:18px;padding:14px 16px;border-radius:10px;font-size:13.5px;
+    background:#31859D;border:1px solid rgba(255,255,255,.30);color:#F2FAFC;
+  }
+  .flag b{color:#fff;}
+  .exempt{background:#C0455A;border-color:rgba(255,255,255,.45);color:#fff;}
+  .exempt b{color:#fff;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{
+    border:1px solid var(--cyan);border-radius:30px;padding:6px 14px;font-size:12px;color:#fff;
+    font-family:"Montserrat",sans-serif;font-weight:500;
+  }
+  footer{font-size:11.5px;color:#9aa2b5;margin-top:28px;line-height:1.65;}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="wrap">
+  <header>
+    <span class="pill">Évaluation IRVE · LOM · Climat et Résilience</span>
+    <h1>Évaluateur d'obligation IRVE</h1>
+    <div class="sub">Nombre de points de recharge obligatoires - Code de la construction et de l'habitation (art. L113-11 à L113-14). Cadre stable 2025-2027.</div>
+  </header>
+
+  <div class="note">
+    L'obligation se calcule sur le <b>nombre de places de stationnement</b>, jamais sur l'effectif salarié. Saisissez les paramètres du parc pour estimer le nombre minimal de bornes au 1er janvier 2025.
+  </div>
+
+  <div class="card">
+    <div class="block">
+      <div class="seclabel">Périmètre</div>
+      <label class="q" for="places">Nombre de places de stationnement</label>
+      <div class="hint">Places dépendant du bâtiment (intérieur ou jouxtant).</div>
+      <input type="number" id="places" min="0" value="85">
+    </div>
+
+    <div class="block">
+      <div class="blockhead"><span class="badge">01</span><label class="q">Type de bâtiment</label></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="type" value="existant" checked>
+          <span><b>Existant</b><small>Permis de construire avant le 11 mars 2021 - seuil de déclenchement : 20 places</small></span></label>
+        <label class="opt"><input type="radio" name="type" value="neuf">
+          <span><b>Neuf ou rénovation importante</b><small>Permis à compter du 11 mars 2021 - seuil abaissé à 10 places</small></span></label>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="blockhead"><span class="badge dark">02</span><label class="q">Statut de l'occupant</label></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="pme" value="non" checked>
+          <span><b>Grande entreprise / ETI, ou bâtiment loué</b><small>Soumis à l'obligation d'équipement</small></span></label>
+        <label class="opt"><input type="radio" name="pme" value="oui">
+          <span><b>PME propriétaire ET occupante du bâtiment</b><small>Exonération art. L113-14 (au sens reco. 2003/361/CE)</small></span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <footer>
+    Estimation indicative fondée sur la règle d'environ 1 point de charge par tranche de 20 emplacements, dont au moins une place accessible PMR ; minimum 2 emplacements équipés au-delà de 200 places. Les obligations d'équipement peuvent être levées si les travaux d'adaptation du réseau électrique en amont du TGBT excèdent le coût des travaux en aval (art. L113-14 1°), et ne s'appliquent pas aux PME propriétaires-occupantes. Pour les bâtiments neufs ou rénovés, une obligation distincte de pré-équipement s'ajoute. Ce document n'est pas un avis juridique ; valider chaque cas avec une étude de conception électrique (obligatoire dès 50 places).
+  </footer>
+</div>
+
+<script>
+  function compute(){
+    var n = parseInt(document.getElementById('places').value) || 0;
+    var type = document.querySelector('input[name=type]:checked').value;
+    var pme = document.querySelector('input[name=pme]:checked').value;
+    var seuil = (type === 'neuf') ? 10 : 20;
+    var res = document.getElementById('result');
+
+    if(pme === 'oui'){
+      res.innerHTML =
+        '<div class="reslabel">Résultat</div>'+
+        '<div class="big">Exonéré</div>'+
+        '<div class="unit">Aucune obligation d\'\u00e9quipement IRVE</div>'+
+        '<div class="flag exempt">Les articles L113-12 et L113-13 ne s\'appliquent pas aux parcs dépendant de bâtiments possédés <b>et</b> occupés par une PME (reco. 2003/361/CE). Vérifier que les deux conditions (propriété + occupation) sont réunies. L\'équipement reste possible volontairement et finançable (programme ADVENIR).</div>';
+      return;
+    }
+
+    if(n <= seuil){
+      res.innerHTML =
+        '<div class="reslabel">Résultat</div>'+
+        '<div class="big">0</div>'+
+        '<div class="unit">borne obligatoire</div>'+
+        '<div class="flag">Le parc compte '+n+' place(s), au seuil ou en dessous du déclenchement de '+seuil+' places pour ce type de bâtiment. Aucune obligation d\'\u00e9quipement à ce stade.</div>';
+      return;
+    }
+
+    var bornes = Math.floor(n / 20);
+    if(bornes < 1) bornes = 1;
+    if(n > 200) bornes = Math.max(bornes, 2);
+
+    var html =
+      '<div class="reslabel">Résultat</div>'+
+      '<div class="big">'+bornes+'</div>'+
+      '<div class="unit">point(s) de recharge minimum, dont 1 sur place accessible PMR</div>'+
+      '<div class="breakdown">'+
+        '<div><span>Places de stationnement</span><b>'+n+'</b></div>'+
+        '<div><span>Type / seuil de déclenchement</span><b>'+(type==='neuf'?'Neuf ou rénové':'Existant')+' (&gt; '+seuil+')</b></div>'+
+        '<div><span>Calcul : 1 borne / tranche de 20</span><b>'+Math.floor(n/20)+'</b></div>'+
+        (n>200?'<div><span>Plancher &gt; 200 places</span><b>min. 2</b></div>':'')+
+        '<div><span>Dont place PMR</span><b>1</b></div>'+
+      '</div>';
+
+    if(type==='neuf'){
+      html += '<div class="flag">Bâtiment neuf / rénové : s\'ajoute une obligation de <b>pré-équipement</b> (fourreaux, chemins de câbles, puissance) d\'une partie des emplacements, à dimensionner dans l\'étude de conception.</div>';
+    }
+    if(n>=50){
+      html += '<div class="flag">Parc de 50 places ou plus : une <b>étude de conception électrique</b> par un installateur qualifié IRVE est obligatoire avant travaux.</div>';
+    }
+    html += '<div class="chips"><span class="chip">LOM</span><span class="chip">Climat et Résilience</span><span class="chip">CCH art. L113-12</span></div>';
+
+    res.innerHTML = html;
+  }
+  document.getElementById('places').addEventListener('input', compute);
+  document.querySelectorAll('input[name=type], input[name=pme]').forEach(function(el){ el.addEventListener('change', compute); });
+  compute();
+</script>
+</body>
+</html>
